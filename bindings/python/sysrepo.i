@@ -291,6 +291,9 @@ public:
     }
 
     std::pair<char *, LYS_INFORMAT> ly_module_imp_clb(const char *mod_name, const char *mod_rev, const char *submod_name, const char *sub_rev, PyObject *user_data) {
+#if defined(SWIG_PYTHON_THREADS)
+        SWIG_Python_Thread_Block safety;
+#endif
         PyObject *arglist = Py_BuildValue("(ssssO)", mod_name, mod_rev, submod_name, sub_rev, user_data);
         PyObject *my_result = PyEval_CallObject(_callback, arglist);
         Py_DECREF(arglist);
